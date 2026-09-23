@@ -1,0 +1,31 @@
+{
+  "Header": {
+    "home": "ہوم",
+    "destinations": "مقامات",
+    "experiences": "تجربات"
+  },
+  "Hero": {
+    "subtitle": "سفر کا فن",
+    "title": "منتخب خوبصورتی",
+    "description": "حیرت انگیز مقامات دریافت کریں۔"
+  },
+  "Search": {
+    "placeholder": "آپ کہاں جانا چاہیں گے؟",
+    "button": "دریافت کریں"
+  },
+  "Categories": {
+    "subtitle": "آپ کے لیے منتخب",
+    "title": "تجربات دریافت کریں"
+  },
+  "Destinations": {
+    "subtitle": "منتخب مقامات",
+    "title": "مقبول مقامات",
+    "explore": "سب دیکھیں",
+    "from": "سے"
+  },
+  "AITrip": {
+    "title": "اے آئی منصوبہ ساز",
+    "subtitle": "اپنا سفر ڈیزائن کریں",
+    "button": "سفرنامہ بنائیں"
+  }
+}

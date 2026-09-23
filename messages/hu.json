@@ -1,0 +1,31 @@
+{
+  "Header": {
+    "home": "FŐOLDAL",
+    "destinations": "ÚTICÉLOK",
+    "experiences": "ÉLMÉNYEK"
+  },
+  "Hero": {
+    "subtitle": "Az utazás művészete",
+    "title": "Válogatott elegancia",
+    "description": "Fedezzen fel lélegzetelállító úticélokat."
+  },
+  "Search": {
+    "placeholder": "Hová szeretne utazni?",
+    "button": "Felfedezés"
+  },
+  "Categories": {
+    "subtitle": "Önnek válogatva",
+    "title": "Élmények felfedezése"
+  },
+  "Destinations": {
+    "subtitle": "Gondosan kiválasztott helyek",
+    "title": "Népszerű úticélok",
+    "explore": "Összes felfedezése",
+    "from": "-tól"
+  },
+  "AITrip": {
+    "title": "MI Utazástervező",
+    "subtitle": "Tervezze meg a tökéletes utazást",
+    "button": "Útiterv készítése"
+  }
+}

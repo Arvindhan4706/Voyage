@@ -1,0 +1,31 @@
+{
+  "Header": {
+    "home": "BERANDA",
+    "destinations": "DESTINASI",
+    "experiences": "PENGALAMAN"
+  },
+  "Hero": {
+    "subtitle": "Seni Bepergian",
+    "title": "Keanggunan yang Dikurasi",
+    "description": "Temukan destinasi menakjubkan."
+  },
+  "Search": {
+    "placeholder": "Ke mana Anda ingin pergi?",
+    "button": "Temukan"
+  },
+  "Categories": {
+    "subtitle": "Dikurasi Untuk Anda",
+    "title": "Jelajahi Pengalaman"
+  },
+  "Destinations": {
+    "subtitle": "Lokasi Pilihan",
+    "title": "Destinasi Populer",
+    "explore": "Jelajahi Semua",
+    "from": "Dari"
+  },
+  "AITrip": {
+    "title": "Perencana AI",
+    "subtitle": "Rancang Perjalanan Anda",
+    "button": "Buat Rencana"
+  }
+}

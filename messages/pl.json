@@ -1,0 +1,31 @@
+{
+  "Header": {
+    "home": "STRONA GŁÓWNA",
+    "destinations": "MIEJSCA DOCELOWE",
+    "experiences": "DOŚWIADCZENIA"
+  },
+  "Hero": {
+    "subtitle": "Sztuka Podróżowania",
+    "title": "Wyselekcjonowana Elegancja",
+    "description": "Odkryj zapierające dech w piersiach miejsca."
+  },
+  "Search": {
+    "placeholder": "Gdzie chciałbyś pojechać?",
+    "button": "Odkryj"
+  },
+  "Categories": {
+    "subtitle": "Stworzone dla Ciebie",
+    "title": "Odkryj Doświadczenia"
+  },
+  "Destinations": {
+    "subtitle": "Wybrane Miejsca",
+    "title": "Popularne Kierunki",
+    "explore": "Odkryj Wszystko",
+    "from": "Od"
+  },
+  "AITrip": {
+    "title": "Planer AI",
+    "subtitle": "Zaprojektuj swoją Podróż",
+    "button": "Generuj Plan"
+  }
+}

@@ -1,0 +1,51 @@
+stages:
+  generate_data:
+    cmd: python generate_data.py
+    deps:
+      - generate_data.py
+    outs:
+      - data/flight_prices.csv:
+          persist: true
+          cache: true
+
+  train:
+    cmd: python train.py
+    deps:
+      - train.py
+      - data/flight_prices.csv
+    outs:
+      - models/flight_price_model_v*.pkl:
+          persist: true
+          cache: true
+      - models/flight_price_model_v*_metadata.json:
+          persist: true
+          cache: true
+    params:
+      - n_estimators
+      - max_depth
+      - min_samples_split
+      - min_samples_leaf
+
+  evaluate:
+    cmd: python evaluate.py
+    deps:
+      - evaluate.py
+      - data/flight_prices.csv
+      - models/flight_price_model_v*.pkl
+    outs:
+      - metrics/evaluation_metrics.json:
+          persist: true
+          cache: true
+    params:
+      - test_size
+
+  monitor:
+    cmd: python monitor.py
+    deps:
+      - monitor.py
+      - logs/predictions.csv
+      - data/flight_prices.csv
+    outs:
+      - logs/drift_report.json:
+          persist: true
+          cache: true

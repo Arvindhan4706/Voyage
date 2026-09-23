@@ -1,0 +1,31 @@
+{
+  "Header": {
+    "home": "ANA SAYFA",
+    "destinations": "DESTİNASYONLAR",
+    "experiences": "DENEYİMLER"
+  },
+  "Hero": {
+    "subtitle": "Seyahat Sanatı",
+    "title": "Özenle Seçilmiş Zarafet",
+    "description": "Nefes kesici destinasyonları keşfedin."
+  },
+  "Search": {
+    "placeholder": "Nereye gitmek istersiniz?",
+    "button": "Keşfet"
+  },
+  "Categories": {
+    "subtitle": "Sizin İçin Seçildi",
+    "title": "Deneyimleri Keşfedin"
+  },
+  "Destinations": {
+    "subtitle": "Seçilmiş Mekanlar",
+    "title": "Trend Destinasyonlar",
+    "explore": "Tümünü Keşfet",
+    "from": "İtibaren"
+  },
+  "AITrip": {
+    "title": "Yapay Zeka Planlayıcı",
+    "subtitle": "Mükemmel Yolculuğunuzu Tasarlayın",
+    "button": "Rota Oluştur"
+  }
+}

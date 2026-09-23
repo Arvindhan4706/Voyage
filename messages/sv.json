@@ -1,0 +1,31 @@
+{
+  "Header": {
+    "home": "HEM",
+    "destinations": "DESTINATIONER",
+    "experiences": "UPPLEVELSER"
+  },
+  "Hero": {
+    "subtitle": "Konsten att resa",
+    "title": "Utvald elegans",
+    "description": "Upptäck fantastiska destinationer."
+  },
+  "Search": {
+    "placeholder": "Vart vill du åka?",
+    "button": "Upptäck"
+  },
+  "Categories": {
+    "subtitle": "Utvalt för dig",
+    "title": "Utforska upplevelser"
+  },
+  "Destinations": {
+    "subtitle": "Handplockade platser",
+    "title": "Trendiga destinationer",
+    "explore": "Utforska alla",
+    "from": "Från"
+  },
+  "AITrip": {
+    "title": "AI Reseplanerare",
+    "subtitle": "Designa din perfekta resa",
+    "button": "Skapa resplan"
+  }
+}

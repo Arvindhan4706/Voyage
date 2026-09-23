@@ -1,0 +1,31 @@
+{
+  "Header": {
+    "home": "HJEM",
+    "destinations": "DESTINATIONER",
+    "experiences": "OPLEVELSER"
+  },
+  "Hero": {
+    "subtitle": "Rejsekunsten",
+    "title": "Udvalgt elegance",
+    "description": "Oplev fantastiske destinationer."
+  },
+  "Search": {
+    "placeholder": "Hvor vil du gerne hen?",
+    "button": "Opdag"
+  },
+  "Categories": {
+    "subtitle": "Udvalgt til dig",
+    "title": "Udforsk oplevelser"
+  },
+  "Destinations": {
+    "subtitle": "Håndplukkede steder",
+    "title": "Populære destinationer",
+    "explore": "Udforsk alle",
+    "from": "Fra"
+  },
+  "AITrip": {
+    "title": "AI Rejseplanlægger",
+    "subtitle": "Design din perfekte rejse",
+    "button": "Generer rejseplan"
+  }
+}

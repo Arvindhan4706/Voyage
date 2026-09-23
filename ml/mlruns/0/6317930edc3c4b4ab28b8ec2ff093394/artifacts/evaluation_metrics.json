@@ -1,0 +1,8 @@
+{
+  "MAE": 929.4,
+  "RMSE": 1939.8,
+  "R2": 0.9697,
+  "MAPE": 7.75,
+  "test_samples": 4000,
+  "evaluation_timestamp": "2026-09-23T17:11:49.382269Z"
+}

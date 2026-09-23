@@ -1,0 +1,31 @@
+{
+  "Header": {
+    "home": "首页",
+    "destinations": "目的地",
+    "experiences": "体验"
+  },
+  "Hero": {
+    "subtitle": "旅行的艺术",
+    "title": "精心策划的优雅",
+    "description": "探索令人惊叹的目的地。"
+  },
+  "Search": {
+    "placeholder": "您想去哪里？",
+    "button": "发现"
+  },
+  "Categories": {
+    "subtitle": "为您精选",
+    "title": "探索体验"
+  },
+  "Destinations": {
+    "subtitle": "精选地点",
+    "title": "热门目的地",
+    "explore": "探索全部",
+    "from": "起价"
+  },
+  "AITrip": {
+    "title": "AI行程规划",
+    "subtitle": "设计您的完美旅程",
+    "button": "生成行程"
+  }
+}

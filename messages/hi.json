@@ -1,0 +1,31 @@
+{
+  "Header": {
+    "home": "मुख्य पृष्ठ",
+    "destinations": "गंतव्य",
+    "experiences": "अनुभव"
+  },
+  "Hero": {
+    "subtitle": "यात्रा की कला",
+    "title": "क्यूरेटेड लालित्य",
+    "description": "लुभावने गंतव्यों की खोज करें।"
+  },
+  "Search": {
+    "placeholder": "आप कहाँ जाना चाहेंगे?",
+    "button": "खोजें"
+  },
+  "Categories": {
+    "subtitle": "आपके लिए",
+    "title": "अनुभव देखें"
+  },
+  "Destinations": {
+    "subtitle": "चुनिंदा स्थान",
+    "title": "ट्रेंडिंग गंतव्य",
+    "explore": "सभी देखें",
+    "from": "शुरू"
+  },
+  "AITrip": {
+    "title": "AI योजनाकार",
+    "subtitle": "अपनी यात्रा डिजाइन करें",
+    "button": "जनरेट करें"
+  }
+}

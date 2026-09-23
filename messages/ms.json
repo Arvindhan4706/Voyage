@@ -1,0 +1,31 @@
+{
+  "Header": {
+    "home": "LAMAN UTAMA",
+    "destinations": "DESTINASI",
+    "experiences": "PENGALAMAN"
+  },
+  "Hero": {
+    "subtitle": "Seni Perjalanan",
+    "title": "Keanggunan Terpilih",
+    "description": "Temui destinasi yang menakjubkan."
+  },
+  "Search": {
+    "placeholder": "Ke mana anda ingin pergi?",
+    "button": "Temui"
+  },
+  "Categories": {
+    "subtitle": "Dipilih Untuk Anda",
+    "title": "Terokai Pengalaman"
+  },
+  "Destinations": {
+    "subtitle": "Lokasi Pilihan",
+    "title": "Destinasi Popular",
+    "explore": "Terokai Semua",
+    "from": "Dari"
+  },
+  "AITrip": {
+    "title": "Perancang AI",
+    "subtitle": "Reka Perjalanan Anda",
+    "button": "Jana Jadual"
+  }
+}

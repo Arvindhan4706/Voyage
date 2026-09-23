@@ -1,0 +1,1 @@
+['distance_km', 'days_to_departure', 'day_of_week', 'month', 'is_weekend', 'demand_index', 'stops', 'duration_hours']

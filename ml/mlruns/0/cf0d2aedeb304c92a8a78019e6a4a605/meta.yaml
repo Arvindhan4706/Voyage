@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/Class 12/voyage/ml/mlruns/0/cf0d2aedeb304c92a8a78019e6a4a605/artifacts
+end_time: 1790184897591
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: cf0d2aedeb304c92a8a78019e6a4a605
+run_name: drift_check_20260923_173456
+run_uuid: cf0d2aedeb304c92a8a78019e6a4a605
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1790184897391
+status: 4
+tags: []
+user_id: arvin

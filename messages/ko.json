@@ -1,0 +1,31 @@
+{
+  "Header": {
+    "home": "홈",
+    "destinations": "목적지",
+    "experiences": "경험"
+  },
+  "Hero": {
+    "subtitle": "여행의 예술",
+    "title": "큐레이션된 우아함",
+    "description": "숨막히는 목적지를 발견하세요."
+  },
+  "Search": {
+    "placeholder": "어디로 가고 싶으신가요?",
+    "button": "발견하다"
+  },
+  "Categories": {
+    "subtitle": "당신을 위한 큐레이션",
+    "title": "경험 탐색"
+  },
+  "Destinations": {
+    "subtitle": "엄선된 장소",
+    "title": "인기 목적지",
+    "explore": "모두 탐색",
+    "from": "부터"
+  },
+  "AITrip": {
+    "title": "AI 여행 플래너",
+    "subtitle": "완벽한 여정 디자인",
+    "button": "일정 생성"
+  }
+}

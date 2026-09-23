@@ -1,0 +1,31 @@
+{
+  "Header": {
+    "home": "INICIO",
+    "destinations": "DESTINOS",
+    "experiences": "EXPERIENCIAS"
+  },
+  "Hero": {
+    "subtitle": "El Arte de Viajar",
+    "title": "Elegancia Curada",
+    "description": "Descubra destinos impresionantes."
+  },
+  "Search": {
+    "placeholder": "¿A dónde le gustaría ir?",
+    "button": "Descubrir"
+  },
+  "Categories": {
+    "subtitle": "Curado Para Ti",
+    "title": "Explorar Experiencias"
+  },
+  "Destinations": {
+    "subtitle": "Lugares Seleccionados",
+    "title": "Destinos de Tendencia",
+    "explore": "Explorar Todo",
+    "from": "Desde"
+  },
+  "AITrip": {
+    "title": "Planificador IA",
+    "subtitle": "Diseñe su Viaje",
+    "button": "Generar Itinerario"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "Header": {
+    "home": "ホーム",
+    "destinations": "目的地",
+    "experiences": "体験"
+  },
+  "Hero": {
+    "subtitle": "旅行の芸術",
+    "title": "厳選された優雅さ",
+    "description": "息をのむような目的地を発見。"
+  },
+  "Search": {
+    "placeholder": "どこに行きたいですか？",
+    "button": "発見"
+  },
+  "Categories": {
+    "subtitle": "あなたのために厳選",
+    "title": "体験を探索"
+  },
+  "Destinations": {
+    "subtitle": "厳選された場所",
+    "title": "人気の目的地",
+    "explore": "すべて探索",
+    "from": "から"
+  },
+  "AITrip": {
+    "title": "AIトリッププランナー",
+    "subtitle": "完璧な旅をデザイン",
+    "button": "旅程を作成"
+  }
+}

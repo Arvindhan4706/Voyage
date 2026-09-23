@@ -1,0 +1,31 @@
+{
+  "Header": {
+    "home": "الرئيسية",
+    "destinations": "الوجهات",
+    "experiences": "تجارب"
+  },
+  "Hero": {
+    "subtitle": "فن السفر",
+    "title": "أناقة منتقاة",
+    "description": "اكتشف وجهات مذهلة."
+  },
+  "Search": {
+    "placeholder": "إلى أين تود الذهاب؟",
+    "button": "اكتشف"
+  },
+  "Categories": {
+    "subtitle": "منتقى لك",
+    "title": "استكشاف التجارب"
+  },
+  "Destinations": {
+    "subtitle": "أماكن مختارة",
+    "title": "الوجهات الرائجة",
+    "explore": "استكشاف الكل",
+    "from": "من"
+  },
+  "AITrip": {
+    "title": "مخطط الذكاء الاصطناعي",
+    "subtitle": "صمم رحلتك المثالية",
+    "button": "إنشاء مسار الرحلة"
+  }
+}

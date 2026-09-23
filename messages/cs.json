@@ -1,0 +1,31 @@
+{
+  "Header": {
+    "home": "DOMŮ",
+    "destinations": "DESTINACE",
+    "experiences": "ZÁŽITKY"
+  },
+  "Hero": {
+    "subtitle": "Umění cestovat",
+    "title": "Vybraná elegance",
+    "description": "Objevte úchvatné destinace."
+  },
+  "Search": {
+    "placeholder": "Kam byste chtěli jet?",
+    "button": "Objevit"
+  },
+  "Categories": {
+    "subtitle": "Vybráno pro vás",
+    "title": "Prozkoumat zážitky"
+  },
+  "Destinations": {
+    "subtitle": "Ručně vybraná místa",
+    "title": "Trendy destinace",
+    "explore": "Prozkoumat vše",
+    "from": "Od"
+  },
+  "AITrip": {
+    "title": "Plánovač cest AI",
+    "subtitle": "Navrhněte svou dokonalou cestu",
+    "button": "Vytvořit itinerář"
+  }
+}

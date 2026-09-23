@@ -1,0 +1,31 @@
+{
+  "Header": {
+    "home": "INÍCIO",
+    "destinations": "DESTINOS",
+    "experiences": "EXPERIÊNCIAS"
+  },
+  "Hero": {
+    "subtitle": "A Arte de Viajar",
+    "title": "Elegância Curada",
+    "description": "Descubra destinos de tirar o fôlego."
+  },
+  "Search": {
+    "placeholder": "Para onde você gostaria de ir?",
+    "button": "Descobrir"
+  },
+  "Categories": {
+    "subtitle": "Curadoria Para Você",
+    "title": "Explorar Experiências"
+  },
+  "Destinations": {
+    "subtitle": "Locais Selecionados",
+    "title": "Destinos em Alta",
+    "explore": "Explorar Tudo",
+    "from": "A partir de"
+  },
+  "AITrip": {
+    "title": "Planejador IA",
+    "subtitle": "Projete sua Viagem",
+    "button": "Gerar Itinerário"
+  }
+}

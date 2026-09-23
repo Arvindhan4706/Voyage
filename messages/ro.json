@@ -1,0 +1,31 @@
+{
+  "Header": {
+    "home": "ACASĂ",
+    "destinations": "DESTINAȚII",
+    "experiences": "EXPERIENȚE"
+  },
+  "Hero": {
+    "subtitle": "Arta Călătoriei",
+    "title": "Eleganță Curată",
+    "description": "Descoperă destinații uluitoare."
+  },
+  "Search": {
+    "placeholder": "Unde ați dori să mergeți?",
+    "button": "Descoperă"
+  },
+  "Categories": {
+    "subtitle": "Creat Pentru Tine",
+    "title": "Explorează Experiențe"
+  },
+  "Destinations": {
+    "subtitle": "Locații Alese",
+    "title": "Destinații Populare",
+    "explore": "Explorează Tot",
+    "from": "De la"
+  },
+  "AITrip": {
+    "title": "Planificator AI",
+    "subtitle": "Proiectează-ți Călătoria",
+    "button": "Generează Itinerar"
+  }
+}

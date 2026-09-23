@@ -1,0 +1,31 @@
+{
+  "Header": {
+    "home": "TRANG CHỦ",
+    "destinations": "ĐIỂM ĐẾN",
+    "experiences": "TRẢI NGHIỆM"
+  },
+  "Hero": {
+    "subtitle": "Nghệ Thuật Du Lịch",
+    "title": "Sự Thanh Lịch Được Tuyển Chọn",
+    "description": "Khám phá những điểm đến ngoạn mục."
+  },
+  "Search": {
+    "placeholder": "Bạn muốn đi đâu?",
+    "button": "Khám Phá"
+  },
+  "Categories": {
+    "subtitle": "Dành Riêng Cho Bạn",
+    "title": "Khám Phá Trải Nghiệm"
+  },
+  "Destinations": {
+    "subtitle": "Địa Điểm Được Chọn Lọc",
+    "title": "Điểm Đến Phổ Biến",
+    "explore": "Khám Phá Tất Cả",
+    "from": "Từ"
+  },
+  "AITrip": {
+    "title": "Lập Kế Hoạch AI",
+    "subtitle": "Thiết Kế Chuyến Đi Của Bạn",
+    "button": "Tạo Lịch Trình"
+  }
+}

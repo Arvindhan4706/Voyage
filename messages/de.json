@@ -1,0 +1,31 @@
+{
+  "Header": {
+    "home": "STARTSEITE",
+    "destinations": "REISEZIELE",
+    "experiences": "ERLEBNISSE"
+  },
+  "Hero": {
+    "subtitle": "Die Kunst des Reisens",
+    "title": "Kuratierte Eleganz",
+    "description": "Entdecken Sie atemberaubende Reiseziele."
+  },
+  "Search": {
+    "placeholder": "Wohin möchten Sie reisen?",
+    "button": "Entdecken"
+  },
+  "Categories": {
+    "subtitle": "Für Sie Kuratiert",
+    "title": "Erlebnisse Entdecken"
+  },
+  "Destinations": {
+    "subtitle": "Handverlesene Orte",
+    "title": "Trend-Reiseziele",
+    "explore": "Alles Entdecken",
+    "from": "Ab"
+  },
+  "AITrip": {
+    "title": "KI-Planer",
+    "subtitle": "Gestalten Sie Ihre Reise",
+    "button": "Route Erstellen"
+  }
+}

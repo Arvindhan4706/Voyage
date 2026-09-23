@@ -1,0 +1,31 @@
+{
+  "Header": {
+    "home": "HOME",
+    "destinations": "BESTEMMINGEN",
+    "experiences": "ERVARINGEN"
+  },
+  "Hero": {
+    "subtitle": "De Kunst van het Reizen",
+    "title": "Gecureerde Elegantie",
+    "description": "Ontdek adembenemende bestemmingen."
+  },
+  "Search": {
+    "placeholder": "Waar zou je heen willen?",
+    "button": "Ontdekken"
+  },
+  "Categories": {
+    "subtitle": "Voor Jou Gecureerd",
+    "title": "Ontdek Ervaringen"
+  },
+  "Destinations": {
+    "subtitle": "Geselecteerde Locaties",
+    "title": "Populaire Bestemmingen",
+    "explore": "Alles Ontdekken",
+    "from": "Vanaf"
+  },
+  "AITrip": {
+    "title": "AI Reisplanner",
+    "subtitle": "Ontwerp je Reis",
+    "button": "Route Maken"
+  }
+}

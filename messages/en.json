@@ -1,0 +1,31 @@
+{
+  "Header": {
+    "home": "HOME",
+    "destinations": "DESTINATIONS",
+    "experiences": "EXPERIENCES"
+  },
+  "Hero": {
+    "subtitle": "The Art of Travel",
+    "title": "Curated Elegance",
+    "description": "Discover breathtaking destinations and bespoke experiences."
+  },
+  "Search": {
+    "placeholder": "Where would you like to go?",
+    "button": "Discover"
+  },
+  "Categories": {
+    "subtitle": "Curated For You",
+    "title": "Explore Experiences"
+  },
+  "Destinations": {
+    "subtitle": "Handpicked Locales",
+    "title": "Trending Destinations",
+    "explore": "Explore All",
+    "from": "From"
+  },
+  "AITrip": {
+    "title": "AI Trip Planner",
+    "subtitle": "Design Your Perfect Journey",
+    "button": "Generate Itinerary"
+  }
+}

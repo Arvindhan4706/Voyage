@@ -1,0 +1,31 @@
+{
+  "Header": {
+    "home": "KOTI",
+    "destinations": "KOHTEET",
+    "experiences": "KOKEMUKSET"
+  },
+  "Hero": {
+    "subtitle": "Matkustamisen taide",
+    "title": "Valikoitu eleganssi",
+    "description": "Löydä henkeäsalpaavia kohteita."
+  },
+  "Search": {
+    "placeholder": "Minne haluaisit mennä?",
+    "button": "Löydä"
+  },
+  "Categories": {
+    "subtitle": "Sinulle valittu",
+    "title": "Tutki kokemuksia"
+  },
+  "Destinations": {
+    "subtitle": "Käsin poimitut paikat",
+    "title": "Suositut kohteet",
+    "explore": "Tutki kaikki",
+    "from": "Alkaen"
+  },
+  "AITrip": {
+    "title": "AI-matkasuunnittelija",
+    "subtitle": "Suunnittele täydellinen matkasi",
+    "button": "Luo matkasuunnitelma"
+  }
+}

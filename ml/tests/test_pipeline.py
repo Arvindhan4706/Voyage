@@ -95,7 +95,7 @@ def test_mlflow_tracking_exists():
     assert MLRUNS_DIR.exists(), "MLflow tracking directory not found"
     
     # Check for experiment
-    experiments = list(MLRUNS_DIR.glob("[0-9]"))
+    experiments = list(MLRUNS_DIR.glob("[0-9]*"))
     assert len(experiments) > 0, "No MLflow experiments found"
 
 def test_mlflow_has_runs():

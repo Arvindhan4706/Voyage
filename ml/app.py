@@ -136,15 +136,24 @@ def load_model():
     global model_pipeline, model_metadata, model_version
 
     candidates = [
+        MODELS_DIR / "flight_price_model_latest.pkl",
         MODELS_DIR / "flight_price_model.pkl",
         MODELS_DIR / "flight_price_model_kaggle.pkl",
         MODELS_DIR / "flight_price_model_real.pkl",
     ]
     meta_candidates = [
+        MODELS_DIR / "flight_price_model_latest_metadata.json",
         MODELS_DIR / "flight_price_model_metadata.json",
         MODELS_DIR / "flight_price_model_kaggle_metadata.json",
         MODELS_DIR / "flight_price_model_real_metadata.json",
     ]
+
+    # Dynamically include any other .pkl found in models directory
+    if MODELS_DIR.exists():
+        for p in sorted(MODELS_DIR.glob("*.pkl"), reverse=True):
+            if p not in candidates:
+                candidates.append(p)
+                meta_candidates.append(p.parent / f"{p.stem}_metadata.json")
 
     for model_path, meta_path in zip(candidates, meta_candidates):
         if model_path.exists():
@@ -154,7 +163,7 @@ def load_model():
                 if meta_path.exists():
                     with open(meta_path, "r") as f:
                         model_metadata = json.load(f)
-                model_version = model_metadata.get("model_version", "1.0.0")
+                model_version = model_metadata.get("model_version", model_path.stem)
                 logger.info(f"Model loaded: {model_path} (version {model_version})")
                 return True
             except Exception as e:
@@ -190,6 +199,7 @@ app.add_middleware(
 def log_prediction(request: PredictionRequest, prediction: float, latency_ms: float):
     entry = {
         "timestamp":           datetime.now(timezone.utc).isoformat(),
+        "model_version":       model_version,
         "source":              request.source or request.source_city,
         "destination":         request.destination or request.destination_city,
         "travel_class":        request.travel_class,

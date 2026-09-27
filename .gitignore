@@ -8,11 +8,6 @@
 !.yarn/releases
 !.yarn/versions
 
-# virtual environments
-venv/
-ml/venv/
-.venv/
-
 # testing
 /coverage
 
@@ -33,8 +28,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# env files
+.env*.local
+.env
 
 # vercel
 .vercel
@@ -43,15 +39,14 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# ML artifacts & caches
+# ml artifacts and logs
+ml/__pycache__/
 ml/data/
 ml/models/
 ml/metrics/
 ml/logs/
+ml/flight_data_cleaned.csv
+ml/mlruns.db
 ml/mlruns/
-*.db
-*.csv
-*-journal
-__pycache__/
+mlflow.db
 *.pyc
-.dvc/cache

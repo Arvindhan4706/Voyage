@@ -3,7 +3,7 @@ FROM python:3.10-slim
 WORKDIR /app
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y --no-cache-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc curl \
     && rm -rf /var/lib/apt/lists/*
 
@@ -18,6 +18,7 @@ COPY evaluate.py .
 COPY monitor.py .
 COPY retrain.py .
 COPY generate_data.py .
+COPY train_real.py .
 COPY dvc.yaml .
 
 # Create directories

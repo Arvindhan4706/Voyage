@@ -9,7 +9,7 @@ interface CacheEntry<T> {
   data: T;
   expiresAt: number;
 }
-const cache = new Map<string, CacheEntry<any>>();
+const cache = new Map<string, CacheEntry<unknown>>();
 
 export function getCached<T>(key: string): T | null {
   const entry = cache.get(key);
@@ -127,7 +127,7 @@ export async function queryGroqJson<T>({
       });
 
       const content = completion.choices[0]?.message?.content || "";
-      const parsed = extractJson<T>(content, null as any);
+      const parsed = extractJson<T>(content, null as unknown as T);
 
       if (parsed !== null && parsed !== undefined) {
         // Validate if expected an array and got an array, or expected object
@@ -143,8 +143,9 @@ export async function queryGroqJson<T>({
           return parsed;
         }
       }
-    } catch (err: any) {
-      console.warn(`Groq request failed with model ${model}:`, err.message || err);
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : String(err);
+      console.warn(`Groq request failed with model ${model}:`, errMsg);
       // Continue to next model in loop
     }
   }

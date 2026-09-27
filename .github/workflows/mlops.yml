@@ -9,6 +9,7 @@ on:
 
 env:
   MLFLOW_TRACKING_URI: file:./mlruns
+  MLFLOW_ALLOW_FILE_STORE: "true"
   PYTHON_VERSION: "3.10"
 
 jobs:
@@ -44,7 +45,7 @@ jobs:
       run: python evaluate.py
 
     - name: Run unit & API tests
-      run: python -m pytest test_ml.py -v
+      run: python test_ml.py
 
     - name: Run drift detection
       run: python monitor.py

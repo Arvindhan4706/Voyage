@@ -4,6 +4,7 @@ Uses scikit-learn RandomForestRegressor with proper MLflow tracking.
 """
 
 import os
+os.environ["MLFLOW_ALLOW_FILE_STORE"] = "true"
 import json
 import pickle
 import warnings
@@ -44,10 +45,14 @@ ALL_FEATURES = CATEGORICAL_FEATURES + NUMERICAL_FEATURES
 
 def setup_mlflow():
     """Initialize MLflow tracking."""
-    mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
-    mlflow.set_experiment(EXPERIMENT_NAME)
-    print(f"MLflow tracking URI: {MLFLOW_TRACKING_URI}")
-    print(f"MLflow experiment: {EXPERIMENT_NAME}")
+    try:
+        tracking_uri = os.environ.get("MLFLOW_TRACKING_URI", MLFLOW_TRACKING_URI)
+        mlflow.set_tracking_uri(tracking_uri)
+        mlflow.set_experiment(EXPERIMENT_NAME)
+        print(f"MLflow tracking URI: {tracking_uri}")
+        print(f"MLflow experiment: {EXPERIMENT_NAME}")
+    except Exception as e:
+        print(f"Warning initializing MLflow tracking: {e}")
 
 def load_and_validate_data() -> pd.DataFrame:
     """Load and validate the dataset."""
@@ -200,34 +205,43 @@ def log_to_mlflow(
     X_train: pd.DataFrame
 ):
     """Log model, parameters, and metrics to MLflow."""
-    with mlflow.start_run(run_name=model_version) as run:
-        # Log parameters
-        mlflow.log_params(params)
-        
-        # Log metrics
-        mlflow.log_metrics(metrics)
-        
-        # Log dataset info
-        mlflow.log_param("train_samples", len(X_train))
-        mlflow.log_param("feature_count", len(ALL_FEATURES))
-        mlflow.log_param("categorical_features", str(CATEGORICAL_FEATURES))
-        mlflow.log_param("numerical_features", str(NUMERICAL_FEATURES))
-        
-        # Log model
-        mlflow.sklearn.log_model(
-            sk_model=pipeline,
-            artifact_path="model",
-            registered_model_name=MODEL_NAME
-        )
-        
-        # Log metadata as artifact
-        metadata_path = MODEL_DIR / f"{model_version}_metadata.json"
-        mlflow.log_artifact(str(metadata_path))
-        
-        print(f"MLflow run ID: {run.info.run_id}")
-        print("MLflow logging complete.")
-        
-        return run.info.run_id
+    try:
+        with mlflow.start_run(run_name=model_version) as run:
+            # Log parameters
+            mlflow.log_params(params)
+            
+            # Log metrics
+            mlflow.log_metrics(metrics)
+            
+            # Log dataset info
+            mlflow.log_param("train_samples", len(X_train))
+            mlflow.log_param("feature_count", len(ALL_FEATURES))
+            mlflow.log_param("categorical_features", str(CATEGORICAL_FEATURES))
+            mlflow.log_param("numerical_features", str(NUMERICAL_FEATURES))
+            
+            # Log model
+            try:
+                mlflow.sklearn.log_model(
+                    sk_model=pipeline,
+                    artifact_path="model"
+                )
+            except Exception as e:
+                print(f"Warning logging model to MLflow: {e}")
+            
+            # Log metadata as artifact
+            metadata_path = MODEL_DIR / f"{model_version}_metadata.json"
+            try:
+                mlflow.log_artifact(str(metadata_path))
+            except Exception as e:
+                print(f"Warning logging artifact to MLflow: {e}")
+            
+            print(f"MLflow run ID: {run.info.run_id}")
+            print("MLflow logging complete.")
+            
+            return run.info.run_id
+    except Exception as e:
+        print(f"Warning MLflow run failed: {e}")
+        return None
 
 def train_pipeline():
     """Main training pipeline."""

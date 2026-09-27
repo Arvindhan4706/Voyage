@@ -1,7 +1,7 @@
 import Groq from "groq-sdk";
 
 export const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
+  apiKey: process.env.GROQ_API_KEY || "dummy_build_key",
 });
 
 // In-memory cache with TTL to prevent hammering rate limits on concurrent page visits
@@ -105,6 +105,10 @@ export async function queryGroqJson<T>({
     if (cached) {
       return cached;
     }
+  }
+
+  if (!process.env.GROQ_API_KEY || process.env.GROQ_API_KEY === "dummy_build_key") {
+    return fallback;
   }
 
   const primaryModel = process.env.GROQ_MODEL || "qwen/qwen3.8-27b";

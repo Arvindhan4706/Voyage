@@ -4,6 +4,7 @@ Evaluates trained model on test set and logs detailed metrics.
 """
 
 import os
+os.environ["MLFLOW_ALLOW_FILE_STORE"] = "true"
 import json
 import pickle
 import warnings
@@ -109,23 +110,31 @@ def save_evaluation_results(metrics, y_test, y_pred):
 
 def log_to_mlflow(metrics, model_metadata):
     """Log evaluation metrics to MLflow."""
-    mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
-    
-    # Filter metrics to only numeric values
-    numeric_metrics = {k: v for k, v in metrics.items() if isinstance(v, (int, float))}
-    
-    with mlflow.start_run(run_name=f"evaluation_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}") as run:
-        mlflow.log_params(model_metadata.get("features", {}))
-        mlflow.log_metrics(numeric_metrics)
-        mlflow.log_param("model_version", model_metadata.get("model_version", "unknown"))
-        mlflow.log_param("training_timestamp", model_metadata.get("training_timestamp", "unknown"))
+    try:
+        tracking_uri = os.environ.get("MLFLOW_TRACKING_URI", MLFLOW_TRACKING_URI)
+        mlflow.set_tracking_uri(tracking_uri)
         
-        # Log artifacts
-        mlflow.log_artifact(str(METRICS_DIR / "evaluation_metrics.json"))
-        mlflow.log_artifact(str(METRICS_DIR / "test_predictions.csv"))
+        # Filter metrics to only numeric values
+        numeric_metrics = {k: v for k, v in metrics.items() if isinstance(v, (int, float))}
         
-        print(f"MLflow evaluation run ID: {run.info.run_id}")
-        return run.info.run_id
+        with mlflow.start_run(run_name=f"evaluation_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}") as run:
+            mlflow.log_params(model_metadata.get("features", {}))
+            mlflow.log_metrics(numeric_metrics)
+            mlflow.log_param("model_version", model_metadata.get("model_version", "unknown"))
+            mlflow.log_param("training_timestamp", model_metadata.get("training_timestamp", "unknown"))
+            
+            # Log artifacts
+            try:
+                mlflow.log_artifact(str(METRICS_DIR / "evaluation_metrics.json"))
+                mlflow.log_artifact(str(METRICS_DIR / "test_predictions.csv"))
+            except Exception as e:
+                print(f"Warning logging artifacts to MLflow: {e}")
+            
+            print(f"MLflow evaluation run ID: {run.info.run_id}")
+            return run.info.run_id
+    except Exception as e:
+        print(f"Warning MLflow evaluation logging failed: {e}")
+        return None
 
 def main():
     print("=" * 60)

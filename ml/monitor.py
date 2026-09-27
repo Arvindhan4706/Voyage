@@ -4,6 +4,7 @@ Uses prediction logs and statistical tests to detect data drift.
 """
 
 import os
+os.environ["MLFLOW_ALLOW_FILE_STORE"] = "true"
 import json
 import warnings
 from pathlib import Path
@@ -122,7 +123,7 @@ def load_prediction_logs(days: int = 30) -> pd.DataFrame:
         return df
     
     # Filter by date - parse timestamps as UTC
-    df["timestamp"] = pd.to_datetime(df["timestamp"], utc=True)
+    df["timestamp"] = pd.to_datetime(df["timestamp"], format="mixed", utc=True)
     cutoff = pd.Timestamp.utcnow() - pd.Timedelta(days=days)
     df = df[df["timestamp"] >= cutoff]
     
@@ -172,8 +173,8 @@ def detect_drift() -> Dict[str, Any]:
         if feature not in ref_df.columns or feature not in pred_df.columns:
             continue
         
-        ref_vals = ref_df[feature].dropna().values
-        pred_vals = pred_df[feature].dropna().values
+        ref_vals = pd.to_numeric(ref_df[feature], errors="coerce").dropna().values
+        pred_vals = pd.to_numeric(pred_df[feature], errors="coerce").dropna().values
         
         if len(ref_vals) < 10 or len(pred_vals) < 10:
             continue

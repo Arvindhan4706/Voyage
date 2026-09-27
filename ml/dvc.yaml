@@ -1,4 +1,5 @@
 stages:
+  # ── LEGACY: Synthetic benchmark dataset (retained as baseline) ──────────────
   generate_data:
     cmd: python generate_data.py
     deps:
@@ -14,10 +15,10 @@ stages:
       - train.py
       - data/flight_prices.csv
     outs:
-      - models/flight_price_model_v*.pkl:
+      - models/flight_price_model_latest.pkl:
           persist: true
           cache: true
-      - models/flight_price_model_v*_metadata.json:
+      - models/flight_price_model_latest_metadata.json:
           persist: true
           cache: true
     params:
@@ -31,7 +32,7 @@ stages:
     deps:
       - evaluate.py
       - data/flight_prices.csv
-      - models/flight_price_model_v*.pkl
+      - models/flight_price_model_latest.pkl
     outs:
       - metrics/evaluation_metrics.json:
           persist: true
@@ -39,13 +40,59 @@ stages:
     params:
       - test_size
 
+  # ── PRIMARY: 300K Kaggle real historical dataset ────────────────────────────
+  train_kaggle:
+    cmd: python train_kaggle.py
+    deps:
+      - train_kaggle.py
+      - data/raw/flight_data_cleaned.csv
+    outs:
+      - models/flight_price_model_kaggle.pkl:
+          persist: true
+          cache: true
+      - models/flight_price_model_kaggle_metadata.json:
+          persist: true
+          cache: true
+      - data/processed/kaggle_test_set.csv:
+          persist: true
+          cache: true
+      - metrics/kaggle_evaluation_metrics.json:
+          persist: true
+          cache: true
+
+  # ── MONITORING: Drift detection against Kaggle reference distribution ───────
   monitor:
     cmd: python monitor.py
     deps:
       - monitor.py
       - logs/predictions.csv
-      - data/flight_prices.csv
+      - data/raw/flight_data_cleaned.csv
     outs:
       - logs/drift_report.json:
+          persist: true
+          cache: true
+
+  # ── LEGACY: Old real-data pipeline (15K dataset) — kept for reference ───────
+  train_real:
+    cmd: python train_real.py
+    deps:
+      - train_real.py
+      - data/raw/real_flight_prices.csv
+    outs:
+      - models/flight_price_model_real.pkl:
+          persist: true
+          cache: true
+      - models/flight_price_model_real_metadata.json:
+          persist: true
+          cache: true
+
+  evaluate_real:
+    cmd: python evaluate_real.py
+    deps:
+      - evaluate_real.py
+      - data/processed/real_test_set.csv
+      - models/flight_price_model_real.pkl
+    outs:
+      - metrics/real_evaluation_metrics.json:
           persist: true
           cache: true

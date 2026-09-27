@@ -40,7 +40,7 @@ def test_generate_data_stage():
 
 def test_train_stage_outputs():
     """Test train stage produces model artifact."""
-    model_files = list(MODELS_DIR.glob("flight_price_model_v*.pkl"))
+    model_files = list(MODELS_DIR.glob("flight_price_model_latest.pkl"))
     assert len(model_files) > 0, "No model artifacts found"
     
     # Check metadata exists
@@ -50,7 +50,7 @@ def test_train_stage_outputs():
 
 def test_model_metadata_structure():
     """Test model metadata has correct structure."""
-    model_files = sorted(MODELS_DIR.glob("flight_price_model_v*.pkl"))
+    model_files = sorted(MODELS_DIR.glob("flight_price_model_latest.pkl"))
     latest = model_files[-1]
     metadata_file = latest.parent / f"{latest.stem}_metadata.json"
     

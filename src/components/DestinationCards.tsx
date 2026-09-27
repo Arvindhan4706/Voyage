@@ -45,6 +45,7 @@ export default function DestinationCards({ showExploreLink = true }: { showExplo
             </div>
           ))
         ) : (
+          destinations.length > 0 ? (
           destinations.map((rec, index) => (
             <motion.div
               key={rec.name || index}
@@ -79,7 +80,12 @@ export default function DestinationCards({ showExploreLink = true }: { showExplo
                 </div>
               </div>
             </motion.div>
-          ))
+          ))) : (
+            <div className="col-span-full py-16 text-center border border-dashed border-gray-200 dark:border-gray-800 rounded-2xl">
+              <p className="text-[#888888] dark:text-[#a3a3a3] font-medium tracking-wide">No destination data is currently available.</p>
+              <p className="text-sm text-gray-500 mt-2">Connected database does not contain active destinations.</p>
+            </div>
+          )
         )}
       </div>
     </section>

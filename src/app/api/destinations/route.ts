@@ -1,66 +1,89 @@
 import { NextRequest, NextResponse } from "next/server";
+import { queryGroqJson } from "@/lib/ai/groq";
+
+const FALLBACK_DESTINATIONS = [
+  {
+    id: "dest-paris",
+    name: "Paris",
+    country: "France",
+    extract: "The City of Light captivates with timeless art, haute cuisine, and iconic monuments along the River Seine.",
+    image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800&q=80",
+    temp: 21,
+    ratings: 4.9,
+  },
+  {
+    id: "dest-kyoto",
+    name: "Kyoto",
+    country: "Japan",
+    extract: "Ancient wooden temples, serene bamboo groves, and traditional tea ceremonies evoke Japan's cultural heart.",
+    image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&q=80",
+    temp: 24,
+    ratings: 4.8,
+  },
+  {
+    id: "dest-bali",
+    name: "Bali",
+    country: "Indonesia",
+    extract: "Tropical beaches, volcanic landscapes, and tranquil wellness retreats make Bali an island paradise.",
+    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80",
+    temp: 29,
+    ratings: 4.7,
+  },
+  {
+    id: "dest-amalfi",
+    name: "Amalfi Coast",
+    country: "Italy",
+    extract: "Dramatic seaside cliffs, pastel fishing villages, and panoramic Mediterranean vistas offer sheer coastal luxury.",
+    image: "https://images.unsplash.com/photo-1533105079780-92b9be482077?w=800&q=80",
+    temp: 26,
+    ratings: 4.9,
+  },
+  {
+    id: "dest-alps",
+    name: "Zermatt",
+    country: "Switzerland",
+    extract: "Nestled beneath the majestic Matterhorn, featuring world-class alpine skiing and pristine mountain air.",
+    image: "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?w=800&q=80",
+    temp: 14,
+    ratings: 4.8,
+  },
+  {
+    id: "dest-capetown",
+    name: "Cape Town",
+    country: "South Africa",
+    extract: "Towering Table Mountain, golden Atlantic beaches, and vibrant coastal culture converge in stunning beauty.",
+    image: "https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=800&q=80",
+    temp: 22,
+    ratings: 4.7,
+  },
+];
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const q = searchParams.get("q") || "luxury";
-  const limit = parseInt(searchParams.get("limit") || "4");
+  const q = searchParams.get("q") || "Trending world destinations";
+  const limit = parseInt(searchParams.get("limit") || "6");
 
-  try {
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) throw new Error("Missing GEMINI_API_KEY");
+  const prompt = `Act as an elite global travel curator. The user requested destination recommendations for: "${q}".
+Provide exactly ${limit} distinctive, high-end travel destinations.
+For each destination, return:
+- "id": A unique string
+- "name": The city or destination name
+- "country": The country name
+- "extract": A short 120-150 character summary
+- "image": A valid high-resolution Unsplash photo URL
+- "temp": Realistic current temperature in Celsius as a number (e.g. 24)
+- "ratings": Realistic rating number between 4.5 and 5.0 (e.g. 4.8)
 
-    const prompt = `Act as a travel expert. Generate a list of exactly ${limit} amazing luxury travel destinations that match this category or query: "${q}". 
-For each destination, provide:
-1. The city or main location name (e.g. "Paris").
-2. A compelling, concise 2-sentence summary of why it's a great luxury destination.
-3. A generic Unsplash image URL pattern like "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&q=80"
-4. An estimated current temperature in Celsius (e.g. 24).
-5. A realistic weather code (use WMO codes like 0 for clear).
-6. The country name.
-7. A realistic user rating out of 5 (e.g., 4.8).
+Return ONLY a JSON array of ${limit} destination objects.`;
 
-Return ONLY the JSON array described below.`;
+  const results = await queryGroqJson<any[]>({
+    prompt,
+    cacheKey: `destinations:${q.toLowerCase()}:${limit}`,
+    ttlSeconds: 600, // 10 min cache
+    fallback: FALLBACK_DESTINATIONS.slice(0, limit),
+    maxTokens: 2000,
+    temperature: 0.7,
+  });
 
-    const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: {
-          responseMimeType: "application/json",
-          temperature: 0.8,
-          responseSchema: {
-            type: "ARRAY",
-            items: {
-              type: "OBJECT",
-              properties: {
-                name: { type: "STRING" },
-                summary: { type: "STRING" },
-                image: { type: "STRING" },
-                temp: { type: "NUMBER" },
-                code: { type: "NUMBER" },
-                country: { type: "STRING" },
-                ratings: { type: "NUMBER" }
-              },
-              required: ["name", "summary", "image", "temp", "code", "country", "ratings"]
-            }
-          }
-        }
-      })
-    });
-
-    if (!geminiRes.ok) {
-      const err = await geminiRes.text();
-      throw new Error(`Gemini API failed: ${err}`);
-    }
-
-    const data = await geminiRes.json();
-    const content = data.candidates?.[0]?.content?.parts?.[0]?.text || "[]";
-    const destinations = JSON.parse(content.replace(/^```json/i, "").replace(/```$/, "").trim());
-
-    return NextResponse.json(destinations);
-  } catch (error) {
-    console.error("Destinations API Error:", error);
-    return NextResponse.json([]);
-  }
+  return NextResponse.json(results);
 }

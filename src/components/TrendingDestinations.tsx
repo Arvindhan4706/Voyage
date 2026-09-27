@@ -29,13 +29,17 @@ export default function TrendingDestinations() {
     fetch("/api/destinations")
       .then((r) => r.json())
       .then((data: any[]) => {
-        if (Array.isArray(data) && data.length > 0) {
-          setDestinations(
-            data.slice(0, 6).map((d, i) => ({
-              ...d,
-              video: videoPool[i % videoPool.length],
-            }))
-          );
+        if (Array.isArray(data)) {
+          if (data.length > 0) {
+            setDestinations(
+              data.slice(0, 6).map((d, i) => ({
+                ...d,
+                video: videoPool[i % videoPool.length],
+              }))
+            );
+          } else {
+            setDestinations([]); // Ensure it's empty
+          }
         } else {
           setError(true);
         }
@@ -55,7 +59,7 @@ export default function TrendingDestinations() {
             </span>
           </h2>
           <p className="text-gray-400 flex items-center gap-2">
-            <Globe size={14} className="text-cyan-400" /> AI Curated Destinations · Gemini Forecasts
+            <Globe size={14} className="text-cyan-400" /> AI Curated Destinations · Groq AI Forecasts
           </p>
         </div>
         {!loading && !error && (
@@ -76,6 +80,14 @@ export default function TrendingDestinations() {
           ) : error ? (
             <div className="flex-1 flex items-center justify-center text-gray-400 py-12">
               <p>Could not load live data. Please refresh.</p>
+            </div>
+          ) : destinations.length === 0 ? (
+            <div className="flex-1 flex items-center justify-center text-gray-400 py-12 w-full">
+              <div className="glass-panel p-8 text-center border-dashed border-2 border-white/10 mx-auto">
+                <Globe size={48} className="text-gray-600 mx-auto mb-4" />
+                <p className="text-xl font-bold text-gray-300 mb-2">No trending destinations</p>
+                <p className="text-gray-500 text-sm">Destination data is currently unavailable from the connected source.</p>
+              </div>
             </div>
           ) : (
             destinations.map((place, idx) => (

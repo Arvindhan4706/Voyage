@@ -24,7 +24,7 @@ ALL_FEATURES = CATEGORICAL_FEATURES + NUMERICAL_FEATURES
 @pytest.fixture(scope="session")
 def model():
     """Load the latest model."""
-    model_files = sorted(MODELS_DIR.glob("flight_price_model_v*.pkl"))
+    model_files = sorted(MODELS_DIR.glob("flight_price_model_latest.pkl"))
     if not model_files:
         pytest.skip("No model files found")
     
@@ -53,7 +53,7 @@ def sample_input():
 
 def test_model_file_exists():
     """Verify at least one model file exists."""
-    model_files = list(MODELS_DIR.glob("flight_price_model_v*.pkl"))
+    model_files = list(MODELS_DIR.glob("flight_price_model_latest.pkl"))
     assert len(model_files) > 0, "No model files found in models/"
 
 def test_model_loads(model):
@@ -156,14 +156,14 @@ def test_prediction_increases_with_distance(model):
 
 def test_metadata_exists(model):
     """Verify model metadata file exists."""
-    model_files = sorted(MODELS_DIR.glob("flight_price_model_v*.pkl"))
+    model_files = sorted(MODELS_DIR.glob("flight_price_model_latest.pkl"))
     latest_model = model_files[-1]
     metadata_file = latest_model.parent / f"{latest_model.stem}_metadata.json"
     assert metadata_file.exists(), f"Metadata file not found: {metadata_file}"
 
 def test_metadata_has_required_fields(model):
     """Verify metadata has required fields."""
-    model_files = sorted(MODELS_DIR.glob("flight_price_model_v*.pkl"))
+    model_files = sorted(MODELS_DIR.glob("flight_price_model_latest.pkl"))
     latest_model = model_files[-1]
     metadata_file = latest_model.parent / f"{latest_model.stem}_metadata.json"
     

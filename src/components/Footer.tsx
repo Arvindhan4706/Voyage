@@ -34,7 +34,7 @@ export default function Footer() {
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#D4AF37]/5 rounded-full blur-[120px] pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-4 pt-16 pb-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-12 mb-16">
           <div className="md:col-span-2">
             <div className="text-3xl font-serif text-black dark:text-white mb-6 tracking-widest uppercase">
               VOYAGE
@@ -56,6 +56,14 @@ export default function Footer() {
               <li><a href="#ai-planner" className="text-[#888888] dark:text-[#a3a3a3] hover:text-[#D4AF37] transition-colors text-sm">Curated Itineraries</a></li>
               <li><a href="#packages" className="text-[#888888] dark:text-[#a3a3a3] hover:text-[#D4AF37] transition-colors text-sm">Bespoke Packages</a></li>
               <li><a href="#experiences" className="text-[#888888] dark:text-[#a3a3a3] hover:text-[#D4AF37] transition-colors text-sm">Travel Guides</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-black dark:text-white font-bold mb-6 tracking-widest uppercase text-xs">Legal</h4>
+            <ul className="space-y-4">
+              <li><a href="/privacy" className="text-[#888888] dark:text-[#a3a3a3] hover:text-[#D4AF37] transition-colors text-sm">Privacy Policy</a></li>
+              <li><a href="/terms" className="text-[#888888] dark:text-[#a3a3a3] hover:text-[#D4AF37] transition-colors text-sm">Terms & Conditions</a></li>
+              <li><a href="/cookie-policy" className="text-[#888888] dark:text-[#a3a3a3] hover:text-[#D4AF37] transition-colors text-sm">Cookie Policy</a></li>
             </ul>
           </div>
 
@@ -85,7 +93,7 @@ export default function Footer() {
 
         <div className="flex flex-col md:flex-row items-center justify-center pt-8 border-t border-[#eaeaea] dark:border-[#333333]">
           <p className="text-[#888888] dark:text-[#a3a3a3] text-sm mb-4 md:mb-0">
-            © 2026 Voyage Luxury Travel. All rights reserved.
+            © {new Date().getFullYear()} Voyage Luxury Travel. All rights reserved.
           </p>
         </div>
       </div>

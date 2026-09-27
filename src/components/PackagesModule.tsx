@@ -79,7 +79,13 @@ export default function PackagesModule() {
       {loading ? (
         <div className="flex flex-col items-center justify-center py-24 text-orange-400">
           <Loader2 size={48} className="animate-spin mb-4" />
-          <p className="font-bold tracking-widest uppercase">Gemini is curating luxury packages...</p>
+          <p className="font-bold tracking-widest uppercase">Fetching packages...</p>
+        </div>
+      ) : packages.length === 0 ? (
+        <div className="glass-panel p-16 text-center border-dashed border-2 border-white/10 max-w-2xl mx-auto">
+          <Calendar size={48} className="text-gray-600 mx-auto mb-4" />
+          <p className="text-xl font-bold text-gray-300 mb-2">No packages available</p>
+          <p className="text-gray-500 text-sm">Package deals are not currently available from the connected source.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

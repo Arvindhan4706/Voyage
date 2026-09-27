@@ -1,71 +1,99 @@
 import { NextRequest, NextResponse } from "next/server";
+import { queryGroqJson } from "@/lib/ai/groq";
+
+const FALLBACK_HOTELS = [
+  {
+    id: "hotel-aman-tokyo",
+    name: "Aman Tokyo",
+    location: "Otemachi, Tokyo",
+    stars: "5",
+    price: 45000,
+    ratings: 4.9,
+    amenities: ["Panoramic Skyline Views", "Private Spa & Onsen", "Michelin-Starred Dining", "Free WiFi"],
+    image: "https://images.unsplash.com/photo-1542314831-c6a4d27ce6a2?w=800&q=80",
+  },
+  {
+    id: "hotel-ritz-paris",
+    name: "Hôtel Ritz Paris",
+    location: "Place Vendôme, Paris",
+    stars: "5",
+    price: 65000,
+    ratings: 4.9,
+    amenities: ["Historic Luxury", "Chanel Spa", "Butler Service", "Gourmet Breakfast"],
+    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80",
+  },
+  {
+    id: "hotel-four-seasons-bali",
+    name: "Four Seasons Resort Bali at Sayan",
+    location: "Ubud, Bali",
+    stars: "5",
+    price: 38000,
+    ratings: 4.8,
+    amenities: ["Private River Villas", "Infinity Pool", "Yoga Pavilion", "Free WiFi"],
+    image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=80",
+  },
+  {
+    id: "hotel-belmond-amalfi",
+    name: "Belmond Hotel Caruso",
+    location: "Ravello, Amalfi Coast",
+    stars: "5",
+    price: 52000,
+    ratings: 4.9,
+    amenities: ["Cliffside Infinity Pool", "Private Yacht Charters", "Fine Wine Cellar", "Breakfast Included"],
+    image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=80",
+  },
+  {
+    id: "hotel-burj-al-arab",
+    name: "Burj Al Arab Jumeirah",
+    location: "Jumeirah Beach, Dubai",
+    stars: "5",
+    price: 85000,
+    ratings: 4.9,
+    amenities: ["Helipad", "Private Beach Club", "Rolls-Royce Chauffeur", "Ultra-Luxury Suites"],
+    image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80",
+  },
+  {
+    id: "hotel-taj-lake-palace",
+    name: "Taj Lake Palace",
+    location: "Lake Pichola, Udaipur",
+    stars: "5",
+    price: 32000,
+    ratings: 4.8,
+    amenities: ["Royal Heritage Suites", "Private Boat Transfers", "Jiva Spa", "Lakeside Dining"],
+    image: "https://images.unsplash.com/photo-1549294413-26f195200c16?w=800&q=80",
+  },
+];
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const location = searchParams.get("location") || searchParams.get("place") || "Bali";
+  const location = searchParams.get("location") || searchParams.get("place") || "popular destinations";
 
-  try {
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) throw new Error("Missing GEMINI_API_KEY");
+  const prompt = `Act as an elite luxury travel booking concierge. The user is searching for accommodations in or around: "${location}".
+Generate exactly 6 distinctive, realistic luxury hotels or boutique resorts.
+For each hotel, return:
+- "id": A unique string
+- "name": Hotel or resort name
+- "location": Specific neighborhood, city, or area
+- "stars": "4" or "5"
+- "price": Realistic price per night in INR as a number (e.g. 18500)
+- "ratings": Rating number between 4.5 and 5.0 (e.g. 4.8)
+- "amenities": Array of 3-4 luxury amenities (e.g. ["Free WiFi", "Infinity Pool", "Fine Dining"])
+- "image": Valid high-resolution Unsplash photo URL of a luxury hotel
 
-    const prompt = `Act as an expert travel agent. Generate a list of 6 highly realistic luxury hotels and resorts in ${location}. 
-Include realistic names, specific locations within ${location}, star ratings (e.g. "5"), prices in INR per night (between 5000 and 30000), guest ratings (e.g. 4.8), exact latitude and longitude coordinates for the hotel, and 4 realistic amenities (e.g. "Free WiFi", "Spa", "Infinity Pool", "24hr Reception"). Return exactly 6 items.`;
+Return ONLY a JSON array of 6 hotel objects.`;
 
-    const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: {
-          responseMimeType: "application/json",
-          temperature: 0.8,
-          responseSchema: {
-            type: "ARRAY",
-            items: {
-              type: "OBJECT",
-              properties: {
-                id: { type: "STRING" },
-                name: { type: "STRING" },
-                location: { type: "STRING" },
-                stars: { type: "STRING" },
-                price: { type: "NUMBER" },
-                ratings: { type: "NUMBER" },
-                lat: { type: "NUMBER" },
-                lon: { type: "NUMBER" },
-                amenities: {
-                  type: "ARRAY",
-                  items: { type: "STRING" }
-                }
-              },
-              required: ["id", "name", "location", "stars", "price", "ratings", "lat", "lon", "amenities"]
-            }
-          }
-        }
-      })
-    });
+  const results = await queryGroqJson<any[]>({
+    prompt,
+    cacheKey: `hotels:${location.toLowerCase().trim()}`,
+    ttlSeconds: 600,
+    fallback: FALLBACK_HOTELS,
+    maxTokens: 2000,
+    temperature: 0.7,
+  });
 
-    if (!geminiRes.ok) {
-      const err = await geminiRes.text();
-      throw new Error(`Gemini API failed: ${err}`);
-    }
-
-    const data = await geminiRes.json();
-    const content = data.candidates?.[0]?.content?.parts?.[0]?.text || "[]";
-    let geminiHotels = JSON.parse(content.replace(/^```json/i, "").replace(/```$/, "").trim());
-
-    // Ensure amenities are stringified for the frontend component expectations
-    geminiHotels = geminiHotels.map((h: any) => ({
-      ...h,
-      amenities: JSON.stringify(h.amenities)
-    }));
-
-    return NextResponse.json(geminiHotels);
-  } catch (error) {
-    console.error("Hotels API Error:", error);
-    return NextResponse.json([]);
-  }
+  return NextResponse.json(results);
 }
 
 export async function POST(req: NextRequest) {
-  return NextResponse.json({ message: "Use GET /api/hotels?location=Bali" });
+  return NextResponse.json({ message: "Use GET /api/hotels?location=Paris" });
 }

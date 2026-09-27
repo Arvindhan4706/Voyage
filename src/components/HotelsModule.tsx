@@ -45,11 +45,11 @@ export default function HotelsModule() {
           data.slice(0, 6).map((h: any, idx: number) => ({
             ...h,
             id: h.id || idx,
-            image: hotelImages[idx % hotelImages.length],
-            priceNum: Math.round(h.price || 3500),
-            displayPrice: `₹${Math.round(h.price || 3500).toLocaleString()}`,
-            rating: h.ratings || 4 + Math.random(),
-            amenities: ["Free WiFi", "Breakfast Included", "Pool"].slice(0, Math.floor(Math.random() * 3) + 1)
+            image: h.image || hotelImages[idx % hotelImages.length],
+            priceNum: typeof h.price === 'number' ? h.price : parseInt(String(h.price).replace(/\\D/g, "")) || 3500,
+            displayPrice: `₹${(typeof h.price === 'number' ? h.price : parseInt(String(h.price).replace(/\\D/g, "")) || 3500).toLocaleString()}`,
+            rating: h.ratings || 4.5,
+            amenities: Array.isArray(h.amenities) ? h.amenities : ["Free WiFi", "Breakfast Included", "Pool"]
           }))
         );
       } else {
@@ -223,7 +223,7 @@ export default function HotelsModule() {
                   <div className="glass-panel p-16 text-center border-dashed border-2 border-white/10">
                     <MapPin size={48} className="text-gray-600 mx-auto mb-4" />
                     <p className="text-xl font-bold text-gray-300 mb-2">No properties found</p>
-                    <p className="text-gray-500 text-sm">Try adjusting your filters or search for a different city.</p>
+                    <p className="text-gray-500 text-sm">No hotel data is currently available from the connected source.</p>
                   </div>
                 ) : (
                   filteredHotels.map((hotel) => (

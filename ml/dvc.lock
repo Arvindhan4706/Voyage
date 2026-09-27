@@ -1,0 +1,103 @@
+schema: '2.0'
+stages:
+  generate_data:
+    cmd: python generate_data.py
+    deps:
+    - path: generate_data.py
+      hash: md5
+      md5: 07e266f6d159b3c4e2375d1ae8541a33
+      size: 7999
+    outs:
+    - path: data/flight_prices.csv
+      hash: md5
+      md5: 318047876b8ccc930fe11e9c0bc37203
+      size: 1373248
+  train:
+    cmd: python train.py
+    deps:
+    - path: data/flight_prices.csv
+      hash: md5
+      md5: 318047876b8ccc930fe11e9c0bc37203
+      size: 1373248
+    - path: train.py
+      hash: md5
+      md5: d3086e09d247382d0bb26219174baa90
+      size: 8892
+    params:
+      params.yaml:
+        max_depth: 20
+        min_samples_leaf: 2
+        min_samples_split: 5
+        n_estimators: 200
+    outs:
+    - path: models/flight_price_model_latest.pkl
+      hash: md5
+      md5: 93dfb283c04f546b5de6445a8c5c2b10
+      size: 101538264
+    - path: models/flight_price_model_latest_metadata.json
+      hash: md5
+      md5: 71d3b463c43506a7bc6f67859c49e6f6
+      size: 697
+  evaluate:
+    cmd: python evaluate.py
+    deps:
+    - path: data/flight_prices.csv
+      hash: md5
+      md5: 318047876b8ccc930fe11e9c0bc37203
+      size: 1373248
+    - path: evaluate.py
+      hash: md5
+      md5: bd6769962e92d81d2d4a59fac5455edf
+      size: 5535
+    - path: models/flight_price_model_latest.pkl
+      hash: md5
+      md5: 93dfb283c04f546b5de6445a8c5c2b10
+      size: 101538264
+    params:
+      params.yaml:
+        test_size: 0.2
+    outs:
+    - path: metrics/evaluation_metrics.json
+      hash: md5
+      md5: 085769674f3d3802f9fd7423d9cdfd5b
+      size: 156
+  train_real:
+    cmd: python train_real.py
+    deps:
+    - path: data/raw/real_flight_prices.csv
+      hash: md5
+      md5: 0292711cf81a6cea66a8b0db91f0947a
+      size: 1197094
+    - path: train_real.py
+      hash: md5
+      md5: 690be83e987de9c999572b4585b448fd
+      size: 8351
+    outs:
+    - path: models/flight_price_model_real.pkl
+      hash: md5
+      md5: 625953d5fb697e898db4a0896959413f
+      size: 227259
+    - path: models/flight_price_model_real_metadata.json
+      hash: md5
+      md5: 5c568f70204091d9e2ffb41684836e55
+      size: 662
+  evaluate_real:
+    cmd: python evaluate_real.py
+    deps:
+    - path: data/processed/real_test_set.csv
+      hash: md5
+      md5: a922ecafb321a5e1448095be6eb504d4
+      size: 251834
+    - path: evaluate_real.py
+      hash: md5
+      md5: 93aff7ba51dac7a00ac4b3fc06125584
+      size: 1827
+    - path: models/flight_price_model_real.pkl
+      hash: md5
+      md5: 625953d5fb697e898db4a0896959413f
+      size: 227259
+    outs:
+    - path: metrics/real_evaluation_metrics.json
+      hash: md5
+      md5: 3fd82f0981ea187ef66547027d8afc0f
+      size: 122

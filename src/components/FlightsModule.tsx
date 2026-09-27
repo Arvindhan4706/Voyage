@@ -283,10 +283,36 @@ export default function FlightsModule() {
                       </div>
                       <div className={`w-[12%] border border-dashed ${prediction.trend === 'rising' ? 'border-red-500/50 bg-red-500/20' : 'border-green-500/50 bg-green-500/20'} h-[${prediction.trend === 'rising' ? '100' : '45'}%] rounded-t-sm`}></div>
                     </div>
+                    
+                    {/* Explainability Section */}
+                    {prediction.explainability && prediction.explainability.length > 0 && (
+                      <div className="mt-6 pt-4 border-t border-white/10">
+                        <h4 className="text-sm font-bold text-white mb-2 flex items-center gap-2">
+                          <Cpu size={14} className="text-cyan-400" /> AI Pricing Insights
+                        </h4>
+                        <ul className="space-y-2">
+                          {prediction.explainability.map((insight: string, idx: number) => (
+                            <li key={idx} className="text-xs text-gray-300 flex items-start gap-2">
+                              <span className="text-cyan-400 mt-0.5">•</span>
+                              {insight}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </div>
 
-                  {/* Flight Selection / Dynamic Real Results */}
+                  {/* Flight Selection / AI Estimated Fare Options */}
                   <div className="flex flex-col gap-4">
+                    <div className="mb-2">
+                      <h4 className="text-white/80 font-medium text-sm flex items-center gap-2">
+                        <Plane className="w-4 h-4 text-cyan-400" />
+                        AI Estimated Fare Options
+                      </h4>
+                      <p className="text-xs text-white/50 mt-1">
+                        These are simulated examples based on the ML model's prediction.
+                      </p>
+                    </div>
                     {prediction.real_flights && prediction.real_flights.length > 0 ? (
                       prediction.real_flights.map((flight: any, index: number) => (
                         <div key={index} className="glass-panel p-4 hover:border-cyan-500/50 transition-colors cursor-pointer group">

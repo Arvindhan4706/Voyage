@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { queryGroqJson } from "@/lib/ai/groq";
 
 export async function POST(req: Request) {
   try {
@@ -17,128 +18,85 @@ export async function POST(req: Request) {
     };
     const targetDest = destination || styleDestinations[style.toLowerCase()] || "Goa";
 
-    const prompt = `
-You are an elite, luxury travel concierge AI called Voyage AI.
-Design a highly personalized, premium travel itinerary based on the following parameters:
+    const prompt = `You are an elite, luxury travel concierge AI called Voyage AI.
+Design a highly personalized, premium travel itinerary based on:
 - Source: ${source}
 - Destination: ${targetDest}
 - Budget: ₹${budget}
 - Duration: ${days} days
 - Travel Style: ${style}
 
-Since you are acting independently, you must also generate:
-1. A realistic current weather estimate (e.g. "28°C").
+Generate:
+1. Current realistic weather estimate (e.g. "28°C").
 2. A compelling 2-sentence summary/about section for ${targetDest}.
-3. The exact latitude and longitude coordinates for ${targetDest}.
+3. Exact latitude and longitude coordinates.
+4. Day-by-day itinerary with title and activities for morning, afternoon, and evening.
 
-Create a day-by-day luxury itinerary. For each day, provide a title, and highly descriptive, premium activities for morning, afternoon, and evening. 
-Do not include any placeholders.
-
-OUTPUT STRICTLY IN THE FOLLOWING JSON FORMAT ONLY:
+OUTPUT STRICTLY IN THIS JSON FORMAT ONLY:
 {
-  "destination": "string",
-  "source": "string",
-  "estimated_budget": "string",
-  "travel_style": "string",
-  "current_weather": "string",
-  "about": "string",
-  "real_attractions_found": "number",
-  "predicted_rating": "number",
+  "destination": "${targetDest}",
+  "source": "${source}",
+  "estimated_budget": "₹${budget}",
+  "travel_style": "${style}",
+  "current_weather": "28°C",
+  "about": "A breathtaking destination known for its pristine beauty and cultural heritage.",
+  "real_attractions_found": 8,
+  "predicted_rating": 4.9,
   "coordinates": {
-    "lat": "number",
-    "lon": "number"
+    "lat": 15.2993,
+    "lon": 74.1240
   },
-  "tips": ["string"],
+  "tips": [
+    "Book heritage tours early in the morning to beat the crowds.",
+    "Try local organic cafes in the historical quarter."
+  ],
   "days": [
     {
-      "day": "number",
-      "title": "string",
-      "morning": "string",
-      "afternoon": "string",
-      "evening": "string"
+      "day": 1,
+      "title": "Arrival & Sunset Welcome",
+      "morning": "Arrive and check in to your boutique resort with welcome herbal teas.",
+      "afternoon": "Stroll through the scenic heritage quarter and visit local artisan boutiques.",
+      "evening": "Enjoy an exclusive oceanfront dinner with candlelit views and local cuisine."
     }
   ]
-}
-`;
+}`;
 
-    try {
-      const apiKey = process.env.GEMINI_API_KEY;
-      if (!apiKey) {
-        throw new Error("Missing GEMINI_API_KEY.");
-      }
+    const fallbackItinerary = {
+      destination: targetDest,
+      source: source,
+      estimated_budget: `₹${budget}`,
+      travel_style: style,
+      current_weather: "26°C",
+      about: `${targetDest} is an extraordinary destination blending vibrant local traditions, breathtaking landscapes, and luxury hospitality.`,
+      real_attractions_found: 12,
+      predicted_rating: 4.9,
+      coordinates: { lat: 15.2993, lon: 74.124 },
+      tips: [
+        "Private airport transfers are recommended for seamless arrival.",
+        "Dress comfortably in breathable fabrics for daytime excursions.",
+        "Reserve specialty dining experiences at least 24 hours in advance."
+      ],
+      days: Array.from({ length: days }, (_, i) => ({
+        day: i + 1,
+        title: `Day ${i + 1}: Discovering ${targetDest}`,
+        morning: `Private guided morning exploration of top landmarks in ${targetDest}.`,
+        afternoon: `Artisanal lunch followed by leisure time at luxury boutique facilities.`,
+        evening: `Sunset viewing followed by fine dining featuring signature local specialties.`
+      }))
+    };
 
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 15000);
+    const itineraryData = await queryGroqJson<typeof fallbackItinerary>({
+      prompt,
+      cacheKey: `trip:${source.toLowerCase()}:${targetDest.toLowerCase()}:${days}:${style.toLowerCase()}`,
+      ttlSeconds: 600,
+      fallback: fallbackItinerary,
+      maxTokens: 2500,
+      temperature: 0.7,
+    });
 
-      const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: {
-            responseMimeType: "application/json",
-            temperature: 0.7,
-            responseSchema: {
-              type: "OBJECT",
-              properties: {
-                destination: { type: "STRING" },
-                source: { type: "STRING" },
-                estimated_budget: { type: "STRING" },
-                travel_style: { type: "STRING" },
-                current_weather: { type: "STRING" },
-                about: { type: "STRING" },
-                real_attractions_found: { type: "NUMBER" },
-                predicted_rating: { type: "NUMBER" },
-                coordinates: {
-                  type: "OBJECT",
-                  properties: {
-                    lat: { type: "NUMBER" },
-                    lon: { type: "NUMBER" }
-                  },
-                  required: ["lat", "lon"]
-                },
-                tips: { type: "ARRAY", items: { type: "STRING" } },
-                days: {
-                  type: "ARRAY",
-                  items: {
-                    type: "OBJECT",
-                    properties: {
-                      day: { type: "NUMBER" },
-                      title: { type: "STRING" },
-                      morning: { type: "STRING" },
-                      afternoon: { type: "STRING" },
-                      evening: { type: "STRING" }
-                    },
-                    required: ["day", "title", "morning", "afternoon", "evening"]
-                  }
-                }
-              },
-              required: ["destination", "source", "estimated_budget", "travel_style", "current_weather", "about", "real_attractions_found", "predicted_rating", "coordinates", "tips", "days"]
-            }
-          }
-        }),
-        signal: controller.signal
-      });
-      clearTimeout(timeoutId);
-
-      if (!geminiRes.ok) {
-        const errorText = await geminiRes.text();
-        throw new Error(`Gemini API failed: ${errorText}`);
-      }
-
-      const geminiData = await geminiRes.json();
-      const content = geminiData.candidates?.[0]?.content?.parts?.[0]?.text;
-      const itineraryData = JSON.parse(content || "{}");
-      
-      return NextResponse.json(itineraryData);
-    } catch (e) {
-      console.warn("Gemini API failed or timed out.", e);
-      return NextResponse.json({ error: "Failed to generate itinerary with Gemini API." }, { status: 500 });
-    }
-  } catch (error: any) {
-    console.error("Trip Error - Catch All:", error);
-    return NextResponse.json({ error: "Failed to generate itinerary, completely broken." }, { status: 500 });
+    return NextResponse.json(itineraryData);
+  } catch (error) {
+    console.error("Trip Generation Error:", error);
+    return NextResponse.json({ error: "Failed to generate itinerary" }, { status: 500 });
   }
 }

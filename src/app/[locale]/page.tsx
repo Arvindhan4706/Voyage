@@ -12,7 +12,6 @@ import RecommendationEngine from "@/components/RecommendationEngine";
 import InsightsDashboard from "@/components/InsightsDashboard";
 import AIPipeline from "@/components/AIPipeline";
 import WhyChooseUs from "@/components/WhyChooseUs";
-import TrustedMarquee from "@/components/TrustedMarquee";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -28,9 +27,6 @@ export default function Home() {
         <div id="ai-planner" className="py-12" />
         <AITripGenerator />
 
-        <div className="py-12" />
-        <TrustedMarquee />
-        
         <div className="py-12" />
         <WhyChooseUs />
         

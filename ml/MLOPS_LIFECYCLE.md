@@ -46,7 +46,7 @@ Key features generated:
 **Why:** Reproducibility; track data/model lineage  
 **How:** `ml/dvc.yaml` defines 4 stages:
 1. `generate_data` → outputs `data/flight_prices.csv`
-2. `train` → outputs `models/flight_price_model_v*.pkl`
+2. `train` → outputs `models/flight_price_model_latest.pkl`
 3. `evaluate` → outputs `metrics/evaluation_metrics.json`
 4. `monitor` → outputs `logs/drift_report.json`
 
@@ -117,7 +117,7 @@ dvc push   # Push to remote storage (if configured)
 **How:** Version format: `flight_price_model_vYYYYMMDD_HHMMSS`
 - Model artifact: `.pkl` (sklearn Pipeline)
 - Metadata: `.json` (version, timestamp, features, metrics, data_version)  
-**Files:** `ml/models/flight_price_model_v*.pkl`, `ml/models/*_metadata.json`
+**Files:** `ml/models/flight_price_model_latest.pkl`, `ml/models/*_metadata.json`
 
 ---
 

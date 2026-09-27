@@ -267,8 +267,8 @@ def train_pipeline():
     # Evaluate
     metrics = evaluate_model(pipeline, X_test, y_test)
     
-    # Generate model version
-    model_version = f"{MODEL_NAME}_v{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}"
+    # Generate model version (deterministic for DVC)
+    model_version = f"{MODEL_NAME}_latest"
     
     # Save artifacts
     model_path, metadata_path = save_model_artifacts(pipeline, metrics, model_version)

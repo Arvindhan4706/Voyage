@@ -20,21 +20,21 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 warnings.filterwarnings("ignore")
 
 # Configuration
-DATA_PATH = Path("data/flight_prices.csv")
+DATA_PATH = Path("data/processed/real_test_set.csv")
 MODELS_DIR = Path("models")
 METRICS_DIR = Path("metrics")
 MLFLOW_TRACKING_URI = "file:./mlruns"
 MODEL_NAME = "flight_price_model"
 
 CATEGORICAL_FEATURES = [
-    "source", "destination", "travel_class", 
+    "Airline", "Source", "Destination", "Travel_Class", 
     "departure_time_category"
 ]
 NUMERICAL_FEATURES = [
-    "distance_km", "days_to_departure", "day_of_week", 
-    "month", "is_weekend", "demand_index", "stops", "duration_hours"
+    "days_to_departure", "day_of_week", 
+    "is_weekend", "stops", "duration_hours"
 ]
-TARGET = "price_inr"
+TARGET = "Price"
 ALL_FEATURES = CATEGORICAL_FEATURES + NUMERICAL_FEATURES
 
 # Promotion thresholds
@@ -59,7 +59,7 @@ def load_current_production_model() -> Tuple[Any, Dict]:
             return model, promoted
     
     # Fallback: latest trained model
-    model_files = sorted(MODELS_DIR.glob("flight_price_model_v*.pkl"))
+    model_files = sorted(MODELS_DIR.glob("flight_price_model_real.pkl"))
     if not model_files:
         return None, {}
     
@@ -77,7 +77,7 @@ def load_current_production_model() -> Tuple[Any, Dict]:
 
 def load_candidate_model() -> Tuple[Any, Dict]:
     """Load the candidate model (latest trained)."""
-    model_files = sorted(MODELS_DIR.glob("flight_price_model_v*.pkl"))
+    model_files = sorted(MODELS_DIR.glob("flight_price_model_real.pkl"))
     if not model_files:
         return None, {}
     
@@ -218,10 +218,8 @@ def retrain_and_evaluate() -> Dict[str, Any]:
     X = df[ALL_FEATURES]
     y = df[TARGET]
     
-    # Split (same seed for reproducibility)
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=42, stratify=df["travel_class"]
-    )
+    # In real data workflow, DATA_PATH is already the test set
+    X_test, y_test = X, y
     
     # Load current production model
     print("\nLoading current production model...")

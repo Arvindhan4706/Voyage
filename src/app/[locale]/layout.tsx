@@ -7,12 +7,29 @@ import AuthProvider from "@/components/AuthProvider";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 
+import ScrollProgress from "@/components/ScrollProgress";
+import BackToTop from "@/components/BackToTop";
+import CookieBanner from "@/components/CookieBanner";
+
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-serif" });
 
 export const metadata: Metadata = {
   title: "Voyage | Luxury Travel Curators",
-  description: "Curated, ultra-premium travel experiences.",
+  description: "Curating ultra-premium travel experiences, bespoke itineraries, and immersive luxury exploration for the discerning traveler. Book your next adventure with Voyage AI.",
+  keywords: "luxury travel, AI itinerary, bespoke travel, premium holidays",
+  openGraph: {
+    title: "Voyage | Luxury Travel Curators",
+    description: "Curating ultra-premium travel experiences with AI-driven itineraries.",
+    url: "https://voyage-ai.com",
+    siteName: "Voyage",
+    images: [{ url: "/social-preview.jpg", width: 1200, height: 630 }],
+    locale: "en_US",
+    type: "website",
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default async function RootLayout({
@@ -32,7 +49,10 @@ export default async function RootLayout({
           <ThemeProvider defaultTheme="dark">
             <AuthProvider>
               <SmoothScrollProvider>
+                <ScrollProgress />
                 {children}
+                <BackToTop />
+                <CookieBanner />
               </SmoothScrollProvider>
             </AuthProvider>
           </ThemeProvider>

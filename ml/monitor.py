@@ -13,24 +13,24 @@ from typing import Dict, List, Any, Optional
 import numpy as np
 import pandas as pd
 from scipy import stats
+from train_real import clean_and_feature_engineer
 
 warnings.filterwarnings("ignore")
 
 # Configuration
 PREDICTION_LOG_FILE = Path("logs/predictions.csv")
-TRAINING_DATA_FILE = Path("data/flight_prices.csv")
+TRAINING_DATA_FILE = Path("data/raw/real_flight_prices.csv")
 DRIFT_REPORT_FILE = Path("logs/drift_report.json")
 MLFLOW_TRACKING_URI = "file:./mlruns"
 
 # Features to monitor for drift
 MONITOR_FEATURES = [
-    "distance_km", "days_to_departure", "demand_index", 
-    "day_of_week", "month", "is_weekend", "stops", "duration_hours"
+    "days_to_departure", "day_of_week", "is_weekend", "stops", "duration_hours"
 ]
 CATEGORICAL_MONITOR_FEATURES = [
-    "source", "destination", "travel_class", "departure_time_category"
+    "Airline", "Source", "Destination", "Travel_Class", "departure_time_category"
 ]
-TARGET = "price_inr"
+TARGET = "Price"
 
 # Drift thresholds
 PSI_THRESHOLD = 0.2
@@ -106,6 +106,7 @@ def chi_square_drift(expected: pd.Series, actual: pd.Series) -> Dict[str, float]
 def load_reference_data() -> pd.DataFrame:
     """Load training data as reference distribution."""
     df = pd.read_csv(TRAINING_DATA_FILE)
+    df = clean_and_feature_engineer(df)
     # Use a sample for efficiency
     if len(df) > 10000:
         df = df.sample(n=10000, random_state=42)

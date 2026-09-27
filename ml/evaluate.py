@@ -42,11 +42,10 @@ ALL_FEATURES = CATEGORICAL_FEATURES + NUMERICAL_FEATURES
 
 def load_latest_model():
     """Load the latest trained model."""
-    model_files = sorted(MODELS_DIR.glob("flight_price_model_v*.pkl"))
-    if not model_files:
-        raise FileNotFoundError("No model files found in models/")
+    latest_model = MODELS_DIR / "flight_price_model_latest.pkl"
+    if not latest_model.exists():
+        raise FileNotFoundError("Model file not found in models/")
     
-    latest_model = model_files[-1]
     print(f"Loading model: {latest_model}")
     
     with open(latest_model, "rb") as f:
